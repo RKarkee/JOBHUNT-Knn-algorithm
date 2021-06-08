@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+ <h1>{{ applicant.user.get_full_name }}</h1>
+ {%load static%}
+          <img src="{{ applicant.user.profile.images.path }}" height="200px" width="200px" alt=""
+                                 class="img-fluid rounded-circle">
+                    <h1><strong>Applied position: {{ applicant.job.title }}</strong></h1>
+                    <h1><strong>Contact: {{ applicant.user.profile.emailContact }}</strong> </h1>
+                    </a>
+                    <h1>
+                        <p>
+
+                            <span class="badge badge-info">Applied {{ applicant.created_at.astimezone }}</span>
+
+                        </p>
+                    </h1>
+                    <h1>Skills: *{{ applicant.user.profile.skill1 }} *{{ applicant.user.profile.skill2 }}
+                        *{{ applicant.user.profile.skill3 }} *{{ applicant.user.profile.skill4 }}</h1>
+                    <h1> Work Experience: {{ applicant.user.profile.work_experience }} years</h1>
+
+                        <p>
+
+                        <h1> About Me:</h1>
+                              <h2>  {{ applicant.user.profile.about_me }}
+                            </h2>
+                        </p>
+</body>
+</html>

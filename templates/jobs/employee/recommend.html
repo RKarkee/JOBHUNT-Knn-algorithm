@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load is_already_applied %}
+{% block title %}
+    Recommendation
+{% endblock %}
+
+{% block content %}
+{% if recommended_job %}
+    <section class="bg-light-gray">
+        <div class="container">
+            <h1 class="heading">{{ recommended_job.1 }}<br>
+                <small>at <a href="#"> {{ recommended_job.12 }}</a></small>
+            </h1>
+            <div class="job-detail-description"><i class="fa fa-map-marker job__location"> </i>
+                {{ recommended_job.3 }} | Posted {{ recommended_job.15 }} |
+                {% if recommended_job.4 == '1' %}
+                    <span class="badge featured-badge badge-success">Full time</span>
+                {% elif recommended_job.4 == '2' %}
+                    <span class="badge featured-badge badge-primary">Part time</span>
+                {% else %}
+                    <span style="color: #ffffff;" class="badge featured-badge badge-warning">Internship</span>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h3>Category: {{ recommended_job.5 }}</h3>
+                    <h4 class="text-info">Skills Required: *{{recommended_job.7}} *{{recommended_job.8}} *{{recommended_job.9}} *{{recommended_job.10}}</h4>
+                    <h5>Last date: {{ recommended_job.6 }}</h5>
+                    <h5 class="text-info">Salary: Negotiable</h5>
+                    <blockquote class="blockquote">
+                        <p>{{ recommended_job.2 }}</p>
+                    </blockquote>
+                    <div class="job-detail__apply-bottom">
+                        {% if request.user.is_authenticated %}
+                            {% if recommended_job.18 %}
+                                <input type="button" class="btn btn-outline-white-primary" value="Already applied"/>
+                            {% else %}
+                                <form action="{% url 'jobs:apply-job' recommended_job.0 %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="job" value="{{ recommended_job.0 }}">
+                                    <input type="submit" class="btn btn-outline-white-primary"
+                                           value="Apply for this job"/>
+                                </form>
+                            {% endif %}
+                        {% else %}
+                            <form action="{% url 'jobs:apply-job' recommended_job.0 %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="job" value="{{ recommended_job.0 }}">
+                                <input type="submit" class="btn btn-outline-white-primary"
+                                       value="Apply for this job"/>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-3">
+                    <h4>About {{ recommended_job.12 }}</h4>
+                    <p class="job-detail__company-description">{{ recommended_job.13 }}</p>
+                    <p class="job-detail__social social social--outline">
+                        <a href="{{ job.website }}" data-toggle="tooltip" data-placement="top" title="Website"
+                           class="link">
+                            <i class="fa fa-link"></i>
+                        </a>
+                        <a href="#" data-toggle="tooltip" data-placement="top" title="Twitter" class="twitter">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" data-toggle="tooltip" data-placement="top" title="Facebook" class="facebook">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </p>
+                    <div class="job-detail__apply-top">
+                        {% if recommended_job.18 %}
+                            <input type="button" class="btn btn-outline-white-primary" value="Already applied"/>
+                        {% else %}
+                            <form action="{% url 'jobs:apply-job' recommended_job.0 %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="job" value="{{ recommended_job.0}}">
+                                <input type="submit" class="btn btn-outline-white-primary" value="Apply for this job"/>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% else %}
+No recommendation
+{% endif %}
+{% endblock %}
